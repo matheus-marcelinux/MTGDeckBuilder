@@ -1,2 +1,2 @@
 # MTGDeckBuilder
-A simple MTG Deck Builder in java with ZK and PostgresSQL
+A simple MTG Deck Builder in java with ZK and PostgreSQL
