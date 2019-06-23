@@ -1,0 +1,92 @@
+<zk>
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('org.mtgdeckbuild.ui.zk.mtgdeckbuilduizk.MyViewModel')"
+		validationMessages="@id('vmsgs')">
+		<tabbox width="max">
+		<tabs>
+			<tab label="Cards"/>
+			<tab label="Stats"/>
+			<tab label="Decks"/>
+		</tabs>
+		<tabpanels>
+			<tabpanel>
+                <borderlayout height="450px">
+                    <north title="Filters" size="min" collapsible="true">
+                    	<hbox>
+                    		<label value="Nome"/>
+                    		<textbox value="@load(vm.name)" onChanging="@command('setName')" width="150px" tabindex="1" />
+                    		<vbox>
+                    			<hbox>
+                    				<label value="Cores" />
+                    				<checkbox id="w" label="White" onCheck="@command('setWhite')" />
+                    				<checkbox id="b" label="Blue" onCheck="@command('setBlue')" />
+                    				<checkbox id="bk" label="Black" onCheck="@command('setBlack')" />
+                    				<checkbox id="r" label="Red" onCheck="@command('setRed')" />
+                    				<checkbox id="g" label="Green" onCheck="@command('setGreen')" />
+                    				<checkbox id="i" label="Incolor" onCheck="@command('setIncolor')" />
+                    			</hbox>
+                    			<hbox>
+                    				<label value="Custo" />
+                    				<checkbox id="c0" label="0" onCheck="@command('setZero')" />
+                    				<checkbox id="c1" label="1" onCheck="@command('setOne')" />
+                    				<checkbox id="c2" label="2" onCheck="@command('setTwo')" />
+                    				<checkbox id="c3" label="3" onCheck="@command('setThree')" />
+                    				<checkbox id="c4" label="4" onCheck="@command('setFour')" />
+                    				<checkbox id="c5" label="5" onCheck="@command('setFive')" />
+                    				<checkbox id="c6" label="6" onCheck="@command('setSix')" />
+                    				<checkbox id="c7" label="7" onCheck="@command('setSeven')" />
+                    				<checkbox id="cp" label="7+" onCheck="@command('setMore')" />
+                    			</hbox>
+                    		</vbox>
+                    		<vbox>
+                    		<label value="Raridade" />
+                    		<radiogroup id="sv2" onCheck="" />
+                    			<radio label="Comum" radiogroup="sv2" />
+				                <radio label="Incomum" radiogroup="sv2" />
+				                <radio label="Rara" radiogroup="sv2" />
+				                <radio label="Mitica Rara" radiogroup="sv2" />
+                    		</vbox>
+                    		<hbox>
+                    		<vbox>
+                    			<label value="Tipos" />
+                   				<checkbox id="t1" label="Artefato" onCheck="@command('setArtifact')" />
+                   				<checkbox id="t2" label="Criatura" onCheck="@command('setCreature')" />
+                   				<checkbox id="t3" label="Encantamento" onCheck="@command('setEnchant')" />
+                   				<checkbox id="t4" label="Planeswalker" onCheck="@command('setPlanesWalker')" />
+                   				
+                    		</vbox>
+                    		<vbox>
+                    		<checkbox id="t5" label="Terreno" onCheck="@command('setGround')" />
+                   				<checkbox id="t6" label="Mágica Instantânea" onCheck="@command('setInstantMagic')" />
+                   				<checkbox id="t7" label="Feitiço" onCheck="@command('setSpell')" />
+                    		</vbox>
+                    		</hbox>
+                    		<button label="Find" onClick="@command('doFind')" />
+                    	</hbox>
+                    </north>
+                    <center border="0">
+                        <borderlayout>
+                            <center>
+                               <listbox id="listbox" width="100%" nonselectableTags="" checkmark="true" multiple="false">
+						        <listhead>
+						            <listheader label="Name" width="400px" />
+						            <listheader label="Type" width="300px"/>
+						            <listheader label="Mana"/>
+						        </listhead>
+						    </listbox>                            
+                            </center>
+                            <east title="Details" size="30%" collapsible="true">
+                                <div>
+                                    <image id="image" src="https://www.lmcorp.com.br/arquivos/up/cartas_bkp/images/en185rna.jpg" />
+                                </div>
+                            </east>
+                        </borderlayout>
+                    </center>
+                </borderlayout>
+            </tabpanel>
+			<tabpanel>This is panel 2</tabpanel>
+			<tabpanel>This is panel 3</tabpanel>
+		</tabpanels>
+	</tabbox>
+	</window>
+</zk>
