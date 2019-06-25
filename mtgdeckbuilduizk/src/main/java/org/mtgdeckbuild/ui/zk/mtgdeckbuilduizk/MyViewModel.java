@@ -1,24 +1,29 @@
 package org.mtgdeckbuild.ui.zk.mtgdeckbuilduizk;
 
+import java.util.List;
+
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.event.CheckEvent;
-import org.zkoss.zk.ui.event.InputEvent;
+
+import ws.models.CardService;
+import ws.models.CardServiceImpl;
+import ws.models.Datum;
 
 public class MyViewModel {
-	
 
 	private String name = null;
-	//colors
+	// colors
 	private boolean isWhite = false;
 	private boolean isBlue = false;
 	private boolean isBlack = false;
 	private boolean isRed = false;
 	private boolean isGreen = false;
 	private boolean isIncolor = false;
-	//cost
+	// cost
 	private boolean isZero = false;
 	private boolean isOne = false;
 	private boolean isTwo = false;
@@ -28,12 +33,12 @@ public class MyViewModel {
 	private boolean isSix = false;
 	private boolean isSeven = false;
 	private boolean isMore = false;
-	//rarity
+	// rarity
 	private boolean isCommon = false;
 	private boolean isUnCommon = false;
 	private boolean isRare = false;
 	private boolean isMitic = false;
-	//types
+	// types
 	private boolean isArtifact = false;
 	private boolean isCreature = false;
 	private boolean isEnchant = false;
@@ -41,24 +46,48 @@ public class MyViewModel {
 	private boolean isGround = false;
 	private boolean isInstantMagic = false;
 	private boolean isSpell = false;
-		
+
+	private List<Datum> cardList;
+	private Datum selectedCard;
+	
+	public List<Datum> getCardList() {
+		return cardList;
+	}
+
+	public void setCardList(List<Datum> cardList) {
+		this.cardList = cardList;
+	}
+
+	public Datum getSelectedCard() {
+		return selectedCard;
+	}
+
+	public void setSelectedCard(Datum selectedCard) {
+		this.selectedCard = selectedCard;
+	}
+
+	
+
+	private CardService cardService = new CardServiceImpl();
+
 	@Init
 	public void init() {
 	}
 
-	
-	public void doFind()
-	{
-		
+	@Command
+	@NotifyChange("cardList")
+	public void doFind() {
+		cardList = cardService.search(name, isWhite, isBlue, isBlack, isRed, isGreen, isIncolor, isZero, isOne, isTwo,
+				isThree, isFour, isFive, isSix, isSeven, isMore, isCommon, isUnCommon, isRare, isMitic, isArtifact,
+				isCreature, isEnchant, isPlanesWalker, isGround, isInstantMagic, isSpell);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
 
-	@Command
-	public void setName( @ContextParam(ContextType.TRIGGER_EVENT) InputEvent change) {
-		this.name = change.getValue();
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean isWhite() {
@@ -294,5 +323,5 @@ public class MyViewModel {
 	public void setSpell(@ContextParam(ContextType.TRIGGER_EVENT) CheckEvent change) {
 		this.isSpell = change.isChecked();
 	}
-	
+
 }

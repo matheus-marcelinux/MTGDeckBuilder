@@ -1,5 +1,5 @@
 <zk>
-	<window apply="org.zkoss.bind.BindComposer"
+	<window id="win" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm')@init('org.mtgdeckbuild.ui.zk.mtgdeckbuilduizk.MyViewModel')"
 		validationMessages="@id('vmsgs')">
 		<tabbox width="max">
@@ -10,11 +10,11 @@
 		</tabs>
 		<tabpanels>
 			<tabpanel>
-                <borderlayout height="450px">
+                <borderlayout height="540px" >
                     <north title="Filters" size="min" collapsible="true">
                     	<hbox>
                     		<label value="Nome"/>
-                    		<textbox value="@load(vm.name)" onChanging="@command('setName')" width="150px" tabindex="1" />
+                    		<textbox value="@save(vm.name)" width="150px" tabindex="1" />
                     		<vbox>
                     			<hbox>
                     				<label value="Cores" />
@@ -40,11 +40,10 @@
                     		</vbox>
                     		<vbox>
                     		<label value="Raridade" />
-                    		<radiogroup id="sv2" onCheck="" />
-                    			<radio label="Comum" radiogroup="sv2" />
-				                <radio label="Incomum" radiogroup="sv2" />
-				                <radio label="Rara" radiogroup="sv2" />
-				                <radio label="Mitica Rara" radiogroup="sv2" />
+                    			<checkbox label="Comum" onCheck="@command('setCommon')" />
+				                <checkbox label="Incomum" onCheck="@command('setUnCommon')" />
+				                <checkbox label="Rara" onCheck="@command('setRare')" />
+				                <checkbox label="Mitica Rara" onCheck="@command('setMitic')" />
                     		</vbox>
                     		<hbox>
                     		<vbox>
@@ -67,18 +66,34 @@
                     <center border="0">
                         <borderlayout>
                             <center>
-                               <listbox id="listbox" width="100%" nonselectableTags="" checkmark="true" multiple="false">
+                               <listbox id="cardsListbox" model="@load(vm.cardList)" selectedItem="@save(vm.selectedCard)" width="100%" checkmark="true" multiple="false" emptyMessage="No cards found, do search">
 						        <listhead>
-						            <listheader label="Name" width="400px" />
-						            <listheader label="Type" width="300px"/>
-						            <listheader label="Mana"/>
+						            <listheader label="Name" width="50%" />
+						            <listheader label="Type" width="40%"/>
+						            <listheader label="Mana" width="10%"/>
 						        </listhead>
-						    </listbox>                            
+						        <template name="model">
+						        <listitem>
+						        	<listcell label="@init(each.name)"></listcell>
+						        	<listcell label="@init(each.typeLine)"></listcell>
+						        	<listcell label="@init(each.cmc)"></listcell>
+						        </listitem>
+						        </template>
+						   	 </listbox>                            
                             </center>
                             <east title="Details" size="30%" collapsible="true">
-                                <div>
-                                    <image id="image" src="https://www.lmcorp.com.br/arquivos/up/cartas_bkp/images/en185rna.jpg" />
-                                </div>
+                                <vbox>
+                                    <image id="image" src="@load(vm.selectedCard.imageUris.normal)" />
+                                    <label value="@load(vm.selectedCard.imageUris.normal)"/>
+                                    <hbox>
+                                    	<button label="Add 1"></button>
+                                    	<button label="Add 4"></button>
+                                    </hbox>
+                                    <hbox>
+                                    	<button label="Remove 1"></button>
+                                    	<button label="Remove All"></button>
+                                    </hbox>
+                                </vbox>
                             </east>
                         </borderlayout>
                     </center>
