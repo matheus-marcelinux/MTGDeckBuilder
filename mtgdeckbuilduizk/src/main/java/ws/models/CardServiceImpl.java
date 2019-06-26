@@ -15,6 +15,7 @@ public class CardServiceImpl implements CardService {
 	private boolean hasCost = false;
 	private boolean hasRarity = false;
 	private boolean hasType = false;
+	private boolean hasName = false;
 	
 	public CardList pagging(String url)
 	{
@@ -65,6 +66,17 @@ public class CardServiceImpl implements CardService {
 		
 		StringBuilder url = new StringBuilder("https://api.scryfall.com/cards/search?format=json&q=");
 
+		hasName = false;
+		if(name != null && !name.isEmpty())
+		{
+			name = name.replace(" ", "+");
+			url.append("name%3D").append(name);
+			hasName = true;
+		}
+		
+		if(hasName)
+			url.append("+");
+		
 		// Start color
 		hasColor = false;
 		if (isWhite || isBlue || isBlack || isRed || isGreen || isIncolor) {

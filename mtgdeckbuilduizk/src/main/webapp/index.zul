@@ -12,56 +12,99 @@
 			<tabpanel>
                 <borderlayout height="540px" >
                     <north title="Filters" size="min" collapsible="true">
-                    	<hbox>
-                    		<label value="Nome"/>
-                    		<textbox value="@save(vm.name)" width="150px" tabindex="1" />
-                    		<vbox>
-                    			<hbox>
-                    				<label value="Cores" />
-                    				<checkbox id="w" label="White" onCheck="@command('setWhite')" />
-                    				<checkbox id="b" label="Blue" onCheck="@command('setBlue')" />
-                    				<checkbox id="bk" label="Black" onCheck="@command('setBlack')" />
-                    				<checkbox id="r" label="Red" onCheck="@command('setRed')" />
-                    				<checkbox id="g" label="Green" onCheck="@command('setGreen')" />
-                    				<checkbox id="i" label="Incolor" onCheck="@command('setIncolor')" />
-                    			</hbox>
-                    			<hbox>
-                    				<label value="Custo" />
-                    				<checkbox id="c0" label="0" onCheck="@command('setZero')" />
-                    				<checkbox id="c1" label="1" onCheck="@command('setOne')" />
-                    				<checkbox id="c2" label="2" onCheck="@command('setTwo')" />
-                    				<checkbox id="c3" label="3" onCheck="@command('setThree')" />
-                    				<checkbox id="c4" label="4" onCheck="@command('setFour')" />
-                    				<checkbox id="c5" label="5" onCheck="@command('setFive')" />
-                    				<checkbox id="c6" label="6" onCheck="@command('setSix')" />
-                    				<checkbox id="c7" label="7" onCheck="@command('setSeven')" />
-                    				<checkbox id="cp" label="7+" onCheck="@command('setMore')" />
-                    			</hbox>
-                    		</vbox>
-                    		<vbox>
+                    	<hlayout>
+                    		<vlayout>
+                    			<hlayout>
+                                    <vlayout>
+                                    	<image src="/img/w.png" width="30px" />
+                    					<checkbox id="w" onCheck="@command('setWhite')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/u.png" width="30px" />
+                    					<checkbox id="b" onCheck="@command('setBlue')" />
+                    				</vlayout>
+                    				<vlayout>	
+                    					<image src="/img/b.png" width="30px" />
+                    					<checkbox id="bk" onCheck="@command('setBlack')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/r.png" width="30px" />
+                    					<checkbox id="r" onCheck="@command('setRed')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/g.png" width="30px" />
+                    					<checkbox id="g" onCheck="@command('setGreen')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/c.png" width="30px" />
+                    					<checkbox id="i" onCheck="@command('setIncolor')" />
+                    				</vlayout>
+                    			</hlayout>
+                    			<hlayout>
+                    				<vlayout>
+                    					<image src="/img/0.png" width="30px" />
+                    					<checkbox id="c0" onCheck="@command('setZero')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/1.png" width="30px" />
+                    					<checkbox id="c1" onCheck="@command('setOne')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/2.png" width="30px" />
+                    					<checkbox id="c2" onCheck="@command('setTwo')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/3.png" width="30px" />
+                    					<checkbox id="c3" onCheck="@command('setThree')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/4.png" width="30px" />
+                    					<checkbox id="c4" onCheck="@command('setFour')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/5.png" width="30px" />
+                    					<checkbox id="c5" onCheck="@command('setFive')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/6.png" width="30px" />
+                    					<checkbox id="c6" onCheck="@command('setSix')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/7.png" width="30px" />
+                    					<checkbox id="c7" onCheck="@command('setSeven')" />
+                    				</vlayout>
+                    				<vlayout>
+                    					<image src="/img/8.png" width="30px" />
+                    					<checkbox id="cp" onCheck="@command('setMore')" />
+                    				</vlayout>
+                    			</hlayout>
+                    		</vlayout>
+                    		<vlayout>
                     		<label value="Raridade" />
                     			<checkbox label="Comum" onCheck="@command('setCommon')" />
 				                <checkbox label="Incomum" onCheck="@command('setUnCommon')" />
 				                <checkbox label="Rara" onCheck="@command('setRare')" />
 				                <checkbox label="Mitica Rara" onCheck="@command('setMitic')" />
-                    		</vbox>
-                    		<hbox>
-                    		<vbox>
-                    			<label value="Tipos" />
-                   				<checkbox id="t1" label="Artefato" onCheck="@command('setArtifact')" />
-                   				<checkbox id="t2" label="Criatura" onCheck="@command('setCreature')" />
-                   				<checkbox id="t3" label="Encantamento" onCheck="@command('setEnchant')" />
-                   				<checkbox id="t4" label="Planeswalker" onCheck="@command('setPlanesWalker')" />
-                   				
-                    		</vbox>
-                    		<vbox>
-                    		<checkbox id="t5" label="Terreno" onCheck="@command('setGround')" />
-                   				<checkbox id="t6" label="Mágica Instantânea" onCheck="@command('setInstantMagic')" />
-                   				<checkbox id="t7" label="Feitiço" onCheck="@command('setSpell')" />
-                    		</vbox>
-                    		</hbox>
+                    		</vlayout>
+                    		<hlayout>
+	                    		<vlayout>
+	                    			<label value="Tipos" />
+	                   				<checkbox id="t1" label="Artefato" onCheck="@command('setArtifact')" />
+	                   				<checkbox id="t2" label="Criatura" onCheck="@command('setCreature')" />
+	                   				<checkbox id="t3" label="Encantamento" onCheck="@command('setEnchant')" />
+	                   				<checkbox id="t4" label="Planeswalker" onCheck="@command('setPlanesWalker')" />
+	                    		</vlayout>
+	                    		<vlayout>
+	                    			
+	                    			<checkbox id="t5" label="Terreno" onCheck="@command('setGround')" />
+	                   				<checkbox id="t6" label="Mágica Instantânea" onCheck="@command('setInstantMagic')" />
+	                   				<checkbox id="t7" label="Feitiço" onCheck="@command('setSpell')" />
+	                    		</vlayout>
+                    		</hlayout>
+                    		<label value="Nome"/>
+                    		<textbox value="@save(vm.name)" width="150px" tabindex="1" />
                     		<button label="Find" onClick="@command('doFind')" />
-                    	</hbox>
+                    	</hlayout>
                     </north>
                     <center border="0">
                         <borderlayout>
@@ -82,20 +125,20 @@
 						   	 </listbox>                            
                             </center>
                             <east size="30%" autoscroll="true">
-                                <vbox align="center">
+                                <vbox pack="center" align="center">
                                     <image id="image" src="@load(vm.selectedCard.imageUris.normal)" width="70%" />
-                                    <hbox>
+                                    <hlayout>
                                     	<label value="Quantidade de Cópias no Deck: " visible="@load(vm.isButtons)"/>
                                     	<label value="@load(vm.qtyOnDeck)" visible="@load(vm.isButtons)"/>
-                                    </hbox>
-                                    <hbox>
+                                    </hlayout>
+                                    <hlayout>
                                     	<button label="Add 1" onClick="@command('addOne')" visible="@load(vm.isButtons)"></button>
                                     	<button label="Add 4" onClick="@command('addFour')" visible="@load(vm.isButtons)"></button>
-                                    </hbox>
-                                    <hbox>
+                                    </hlayout>
+                                    <hlayout>
                                     	<button label="Remove 1" onClick="@command('removeOne')" visible="@load(vm.isButtons)"></button>
                                     	<button label="Remove All" onClick="@command('removeAll')" visible="@load(vm.isButtons)"></button>
-                                    </hbox>
+                                    </hlayout>
                                 </vbox>
                             </east>
                         </borderlayout>

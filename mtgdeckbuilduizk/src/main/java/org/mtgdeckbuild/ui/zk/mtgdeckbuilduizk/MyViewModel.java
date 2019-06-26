@@ -63,14 +63,17 @@ public class MyViewModel {
 	}
 
 	@Command
-	@NotifyChange({"cardList", "isButtons", "qtyOnDeck"})
+	@NotifyChange({"cardList", "isButtons", "qtyOnDeck", "selectedCard"})
 	public void doFind() {
+		selectedCard = null;
 		isButtons = false;
 		cardListHeader = cardService.search(name, isWhite, isBlue, isBlack, isRed, isGreen, isIncolor, isZero, isOne, isTwo,
 				isThree, isFour, isFive, isSix, isSeven, isMore, isCommon, isUnCommon, isRare, isMitic, isArtifact,
 				isCreature, isEnchant, isPlanesWalker, isGround, isInstantMagic, isSpell);
-		
-		cardList = cardListHeader.getData();
+		if(cardListHeader != null)
+			cardList = cardListHeader.getData();
+		else
+			cardList = null;
 	}
 	
 	@Command
