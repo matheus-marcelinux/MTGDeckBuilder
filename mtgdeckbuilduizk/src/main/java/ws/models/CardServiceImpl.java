@@ -1,7 +1,6 @@
 package ws.models;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
@@ -16,36 +15,48 @@ public class CardServiceImpl implements CardService {
 	private boolean hasCost = false;
 	private boolean hasRarity = false;
 	private boolean hasType = false;
-
-	public List<Datum> search(String name, boolean isWhite, boolean isBlue, boolean isBlack, boolean isRed,
+	
+	public CardList pagging(String url)
+	{
+		return doRequest(url);
+	}
+	
+	public CardList search(String name, boolean isWhite, boolean isBlue, boolean isBlack, boolean isRed,
 			boolean isGreen, boolean isIncolor, boolean isZero, boolean isOne, boolean isTwo, boolean isThree,
 			boolean isFour, boolean isFive, boolean isSix, boolean isSeven, boolean isMore, boolean isCommon,
 			boolean isUnCommon, boolean isRare, boolean isMitic, boolean isArtifact, boolean isCreature,
 			boolean isEnchant, boolean isPlanesWalker, boolean isGround, boolean isInstantMagic, boolean isSpell) {
 
-		OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1, TimeUnit.MINUTES)
-				.readTimeout(1, TimeUnit.MINUTES).build();
-
 		String url = getUrl(name, isWhite, isBlue, isBlack, isRed, isGreen, isIncolor, isZero, isOne, isTwo, isThree,
 				isFour, isFive, isSix, isSeven, isMore, isCommon, isUnCommon, isRare, isMitic, isArtifact, isCreature,
 				isEnchant, isPlanesWalker, isGround, isInstantMagic, isSpell);
 
+		return doRequest(url);
+	}
+
+	private CardList doRequest(String url) {
+		
+		OkHttpClient client = new OkHttpClient.Builder().writeTimeout(1, TimeUnit.MINUTES)
+				.readTimeout(1, TimeUnit.MINUTES).build();
 		Request request = new Request.Builder().url(url).get().addHeader("cache-control", "no-cache").build();
-		List<Datum> cardsFound = null;
+		CardList cardsFound = null;
+		Response response = null;
 		try {
-			Response response = client.newCall(request).execute();
+			response = client.newCall(request).execute();
 			if (response.isSuccessful()) {
-				CardList cards = new Gson().fromJson(response.body().string(), CardList.class);
-				cardsFound = cards.getData();
+				cardsFound = new Gson().fromJson(response.body().string(), CardList.class);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally
+		{
+			response.close();
 		}
 
 		return cardsFound;
 	}
-
+	
 	private String getUrl(String name, boolean isWhite, boolean isBlue, boolean isBlack, boolean isRed, boolean isGreen,
 			boolean isIncolor, boolean isZero, boolean isOne, boolean isTwo, boolean isThree, boolean isFour,
 			boolean isFive, boolean isSix, boolean isSeven, boolean isMore, boolean isCommon, boolean isUnCommon,

@@ -1,5 +1,6 @@
 package org.mtgdeckbuild.ui.zk.mtgdeckbuilduizk;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.zkoss.bind.annotation.Command;
@@ -9,6 +10,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.event.CheckEvent;
 
+import ws.models.CardList;
 import ws.models.CardService;
 import ws.models.CardServiceImpl;
 import ws.models.Datum;
@@ -46,28 +48,14 @@ public class MyViewModel {
 	private boolean isGround = false;
 	private boolean isInstantMagic = false;
 	private boolean isSpell = false;
-
+	// controllers
+	private CardList cardListHeader;
+	private List<Datum> deckList = new ArrayList<Datum>();
 	private List<Datum> cardList;
 	private Datum selectedCard;
-	
-	public List<Datum> getCardList() {
-		return cardList;
-	}
-
-	public void setCardList(List<Datum> cardList) {
-		this.cardList = cardList;
-	}
-
-	public Datum getSelectedCard() {
-		return selectedCard;
-	}
-
-	public void setSelectedCard(Datum selectedCard) {
-		this.selectedCard = selectedCard;
-	}
-
-	
-
+	private boolean isButtons = false;
+	private Integer qtyOnDeck = 0;
+	private Integer totalOnDeck = 0;
 	private CardService cardService = new CardServiceImpl();
 
 	@Init
@@ -75,11 +63,72 @@ public class MyViewModel {
 	}
 
 	@Command
-	@NotifyChange("cardList")
+	@NotifyChange({"cardList", "isButtons", "qtyOnDeck"})
 	public void doFind() {
-		cardList = cardService.search(name, isWhite, isBlue, isBlack, isRed, isGreen, isIncolor, isZero, isOne, isTwo,
+		isButtons = false;
+		cardListHeader = cardService.search(name, isWhite, isBlue, isBlack, isRed, isGreen, isIncolor, isZero, isOne, isTwo,
 				isThree, isFour, isFive, isSix, isSeven, isMore, isCommon, isUnCommon, isRare, isMitic, isArtifact,
 				isCreature, isEnchant, isPlanesWalker, isGround, isInstantMagic, isSpell);
+		
+		cardList = cardListHeader.getData();
+	}
+	
+	@Command
+	@NotifyChange("qtyOnDeck")
+	public void addOne()
+	{
+		if(selectedCard != null)
+		{
+			int count = (int)deckList.stream().filter(x -> x.equals(selectedCard)).count();
+			if(count < 4)
+			{
+				deckList.add(selectedCard);
+				this.qtyOnDeck = ++count;
+			}
+			else 
+				System.out.println("Apenas 4 cartas");
+		}
+	}
+	
+	@Command
+	@NotifyChange("qtyOnDeck")
+	public void addFour()
+	{
+		if(selectedCard != null)
+		{
+			int count = (int)deckList.stream().filter(x -> x.equals(selectedCard)).count();
+			count = 4 - count;
+			if(count == 0)
+				System.out.println("Apenas 4 Cartas");
+			for(int i = 0; i < count; i++) 
+			{
+				deckList.add(selectedCard);	
+			}
+			this.qtyOnDeck+= count;
+		}
+	}
+	
+	@Command
+	@NotifyChange("qtyOnDeck")
+	public void removeOne()
+	{
+		if(selectedCard != null && deckList.contains(selectedCard))
+		{
+			deckList.remove(selectedCard);
+			this.qtyOnDeck--;
+		}
+	}
+	
+	@Command
+	@NotifyChange("qtyOnDeck")
+	public void removeAll()
+	{
+		if(selectedCard != null)
+		{			
+			while(deckList.contains(selectedCard))
+				deckList.remove(selectedCard);
+			this.qtyOnDeck = 0;
+		}
 	}
 
 	public String getName() {
@@ -322,6 +371,49 @@ public class MyViewModel {
 	@Command
 	public void setSpell(@ContextParam(ContextType.TRIGGER_EVENT) CheckEvent change) {
 		this.isSpell = change.isChecked();
+	}
+	
+	public Integer getTotalOnDeck() {
+		return totalOnDeck;
+	}
+
+	public void setTotalOnDeck(Integer totalOnDeck) {
+		this.totalOnDeck = totalOnDeck;
+	}
+
+	public Integer getQtyOnDeck() {
+		return qtyOnDeck;
+	}
+
+	public void setQtyOnDeck(Integer qtyOnDeck) {
+		this.qtyOnDeck = qtyOnDeck;
+	}
+
+	public boolean getIsButtons() {
+		return isButtons;
+	}
+
+	public void setButtons(boolean isButtons) {
+		this.isButtons = isButtons;
+	}
+
+	public List<Datum> getCardList() {
+		return cardList;
+	}
+
+	public void setCardList(List<Datum> cardList) {
+		this.cardList = cardList;
+	}
+
+	public Datum getSelectedCard() {
+		return selectedCard;
+	}
+	
+	@NotifyChange({"selectedCard", "isButtons", "qtyOnDeck"})
+	public void setSelectedCard(Datum selectedCard) {
+		this.selectedCard = selectedCard;
+		this.isButtons = true;
+		this.qtyOnDeck = (int)deckList.stream().filter(x -> x.equals(selectedCard)).count();
 	}
 
 }

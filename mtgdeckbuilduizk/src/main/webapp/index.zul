@@ -65,7 +65,7 @@
                     </north>
                     <center border="0">
                         <borderlayout>
-                            <center>
+                            <center autoscroll="true">
                                <listbox id="cardsListbox" model="@load(vm.cardList)" selectedItem="@save(vm.selectedCard)" width="100%" checkmark="true" multiple="false" emptyMessage="No cards found, do search">
 						        <listhead>
 						            <listheader label="Name" width="50%" />
@@ -81,17 +81,20 @@
 						        </template>
 						   	 </listbox>                            
                             </center>
-                            <east title="Details" size="30%" collapsible="true">
-                                <vbox>
-                                    <image id="image" src="@load(vm.selectedCard.imageUris.normal)" />
-                                    <label value="@load(vm.selectedCard.imageUris.normal)"/>
+                            <east size="30%" autoscroll="true">
+                                <vbox align="center">
+                                    <image id="image" src="@load(vm.selectedCard.imageUris.normal)" width="70%" />
                                     <hbox>
-                                    	<button label="Add 1"></button>
-                                    	<button label="Add 4"></button>
+                                    	<label value="Quantidade de Cópias no Deck: " visible="@load(vm.isButtons)"/>
+                                    	<label value="@load(vm.qtyOnDeck)" visible="@load(vm.isButtons)"/>
                                     </hbox>
                                     <hbox>
-                                    	<button label="Remove 1"></button>
-                                    	<button label="Remove All"></button>
+                                    	<button label="Add 1" onClick="@command('addOne')" visible="@load(vm.isButtons)"></button>
+                                    	<button label="Add 4" onClick="@command('addFour')" visible="@load(vm.isButtons)"></button>
+                                    </hbox>
+                                    <hbox>
+                                    	<button label="Remove 1" onClick="@command('removeOne')" visible="@load(vm.isButtons)"></button>
+                                    	<button label="Remove All" onClick="@command('removeAll')" visible="@load(vm.isButtons)"></button>
                                     </hbox>
                                 </vbox>
                             </east>
