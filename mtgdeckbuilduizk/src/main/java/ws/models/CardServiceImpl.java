@@ -108,6 +108,7 @@ public class CardServiceImpl implements CardService {
 
 		// Start Cost
 		hasCost = false;
+		url.append("%28");
 		if (isZero) {
 			url.append("cmc%3D0");
 			hasCost = true;
@@ -160,13 +161,14 @@ public class CardServiceImpl implements CardService {
 			url.append("cmc>7");
 			hasCost = true;
 		}
-
+		url.append("%29");
 		if (hasCost)
 			url.append("+");
 		// End Cost
 
 		// Start rarity
 		hasRarity = false;
+		url.append("%28");
 		if (isCommon) {
 			url.append("r%3Dc");
 			hasRarity = true;
@@ -189,13 +191,14 @@ public class CardServiceImpl implements CardService {
 			url.append("r%3Dm");
 			hasRarity = true;
 		}
-
+		url.append("%29");
 		if (hasRarity)
 			url.append("+");
 		// End rarity
 
 		// Start Type
 		hasType = false;
+		url.append("%28");
 		if (isArtifact) {
 			url.append("t%3Aartifact");
 			hasType = true;
@@ -236,6 +239,7 @@ public class CardServiceImpl implements CardService {
 			url.append("t%3Asorcery");
 			hasType = true;
 		}
+		url.append("%29");
 		// End Type
 		url.append("&unique=cards&order=name");
 
