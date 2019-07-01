@@ -145,8 +145,157 @@
                     </center>
                 </borderlayout>
             </tabpanel>
-			<tabpanel>This is panel 2</tabpanel>
-			<tabpanel>This is panel 3</tabpanel>
+			<tabpanel>
+				<borderlayout height="540px" >
+                    <north size="min" collapsible="true">
+                    	<hbox align ="center" pack="end">
+                    		<vlayout>
+                    			<hlayout>
+                    				<vbox align="center">                    				
+                    					<image src="/img/0.png" width="30px" />
+										<label  value="@load(vm.qtyMana0)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/1.png" width="30px" />
+										<label  value="@load(vm.qtyMana1)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/2.png" width="30px" />
+										<label  value="@load(vm.qtyMana2)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/3.png" width="30px" />
+										<label  value="@load(vm.qtyMana3)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/4.png" width="30px" />
+										<label  value="@load(vm.qtyMana4)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/5.png" width="30px" />
+										<label  value="@load(vm.qtyMana5)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/6.png" width="30px" />
+										<label  value="@load(vm.qtyMana6)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/7.png" width="30px" />
+										<label  value="@load(vm.qtyMana7)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/8.png" width="30px" />
+										<label  value="@load(vm.qtyMana8)"></label>
+									</vbox>
+                    			</hlayout>										
+                    		</vlayout>
+                    		<vlayout>
+                    			<hlayout>
+                    				<vbox align="center">   
+                                    	<image src="/img/w.png" width="30px" />
+                                    	<label  value="@load(vm.pWhite)"></label>
+                                    </vbox>
+                                    <vbox align="center">   
+                    					<image src="/img/u.png" width="30px" />
+                    					<label  value="@load(vm.pBlue)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/b.png" width="30px" />
+                    					<label  value="@load(vm.pBlack)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/r.png" width="30px" />
+                    					<label  value="@load(vm.pRed)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/g.png" width="30px" />
+                    					<label  value="@load(vm.pGreen)"></label>
+                    				</vbox>
+                    				<vbox align="center">   
+                    					<image src="/img/c.png" width="30px" />
+                    					<label  value="@load(vm.pIncolor)"></label>
+                    				</vbox>
+                    			</hlayout>
+                    		</vlayout>
+                    		<vlayout>
+                    				<hbox align="center">   
+                                    	<label value="Artefatos"></label>
+                                    	<label  value="@load(vm.qtdA)"></label>
+                                    </hbox> 
+                                    <hbox align="center">   
+                                    	<label value="Criaturas"></label>
+                                    	<label  value="@load(vm.qtdC)"></label>
+                                    </hbox>                                    
+                    		</vlayout>
+                    		<vlayout>
+                    			<hbox align="center">   
+                                    	<label value="Encatamentos"></label>
+                                    	<label  value="@load(vm.qtdE)"></label>
+                                    </hbox> 
+                                    <hbox align="center">   
+                                    	<label value="Terrenos"></label>
+                                    	<label  value="@load(vm.qtdT)"></label>
+                                </hbox>
+                    		</vlayout>
+                    		<vlayout>
+                    				<hbox align="center">   
+                                    	<label value="Mágicas Instantaneas"></label>
+                                    	<label  value="@load(vm.qtdM)"></label>
+                                    </hbox> 
+                                    <hbox align="center">   
+                                    	<label value="Planeswalker"></label>
+                                    	<label  value="@load(vm.qtdP)"></label>
+                                    </hbox>
+                    		</vlayout>
+                    		<vlayout>
+                    				<hbox align="center">   
+                                    	<label value="Feitiços"></label>
+                                    	<label  value="@load(vm.qtdF)"></label>
+                                    </hbox> 
+                    		</vlayout>
+                    	</hbox>
+                    </north>
+                    <center border="0">
+                        <borderlayout>
+                            <center autoscroll="true">
+                               <listbox id="deckListbox" model="@load(vm.deckList)" selectedItem="@save(vm.selectedDeck)" width="100%" checkmark="true" multiple="false" emptyMessage="No cards found, do search">
+						        <listhead>
+						            <listheader label="Name" width="50%" />
+						            <listheader label="Type" width="40%"/>
+						            <listheader label="Mana" width="10%"/>
+						        </listhead>
+						        <template name="model">
+						        <listitem>
+						        	<listcell label="@init(each.name)"></listcell>
+						        	<listcell label="@init(each.typeLine)"></listcell>
+						        	<listcell label="@init(each.cmc)"></listcell>
+						        </listitem>
+						        </template>
+						   	 </listbox>                            
+                            </center>
+                            <east size="30%" autoscroll="true">
+                                <vbox pack="center" align="center">
+                                    <image id="imageStats" src="@load(vm.selectedDeck.imageUris.normal)" width="70%" />
+                                    <hlayout>
+                                    	<label value="Quantidade de Cópias no Deck: " visible="@load(vm.isButtonsDeck)"/>
+                                    	<label value="@load(vm.qtyOnDeckS)" visible="@load(vm.isButtonsDeck)"/>
+                                    </hlayout>
+                                    <hlayout>
+                                    	<button label="Add 1" onClick="@command('addOneS')" visible="@load(vm.isButtonsDeck)"></button>
+                                    	<button label="Add 4" onClick="@command('addFourS')" visible="@load(vm.isButtonsDeck)"></button>
+                                    </hlayout>
+                                    <hlayout>
+                                    	<button label="Remove 1" onClick="@command('removeOneS')" visible="@load(vm.isButtonsDeck)"></button>
+                                    	<button label="Remove All" onClick="@command('removeAllS')" visible="@load(vm.isButtonsDeck)"></button>
+                                    </hlayout>
+                                </vbox>
+                            </east>
+                        </borderlayout>
+                    </center>
+                </borderlayout>
+			</tabpanel>
+			<tabpanel>Under Construction
+			</tabpanel>
 		</tabpanels>
 	</tabbox>
 	</window>

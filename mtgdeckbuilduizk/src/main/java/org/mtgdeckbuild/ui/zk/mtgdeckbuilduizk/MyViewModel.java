@@ -1,5 +1,7 @@
 package org.mtgdeckbuild.ui.zk.mtgdeckbuilduizk;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,11 +55,37 @@ public class MyViewModel {
 	private List<Datum> deckList = new ArrayList<Datum>();
 	private List<Datum> cardList;
 	private Datum selectedCard;
+	private Datum selectedDeck;
 	private boolean isButtons = false;
+	private boolean isButtonsDeck = false;
 	private Integer qtyOnDeck = 0;
+	private Integer qtyOnDeckS = 0;
 	private Integer totalOnDeck = 0;
 	private CardService cardService = new CardServiceImpl();
-
+	private Integer qtyMana0 = 0;
+	private Integer qtyMana1 = 0;
+	private Integer qtyMana2 = 0;
+	private Integer qtyMana3 = 0;
+	private Integer qtyMana4 = 0;
+	private Integer qtyMana5 = 0;
+	private Integer qtyMana6 = 0;
+	private Integer qtyMana7 = 0;
+	private Integer qtyMana8 = 0;
+	private BigDecimal pRed = BigDecimal.ZERO;
+	private BigDecimal pWhite = BigDecimal.ZERO;
+	private BigDecimal pBlue = BigDecimal.ZERO;
+	private BigDecimal pGreen = BigDecimal.ZERO;
+	private BigDecimal pBlack = BigDecimal.ZERO;
+	private BigDecimal pIncolor = BigDecimal.ZERO;
+	private Integer qtdA = 0;
+	private Integer qtdC = 0;
+	private Integer qtdE = 0;
+	private Integer qtdT = 0;
+	private Integer qtdF = 0;
+	private Integer qtdM = 0;
+	private Integer qtdP = 0;
+	
+	
 	@Init
 	public void init() {
 	}
@@ -77,7 +105,9 @@ public class MyViewModel {
 	}
 	
 	@Command
-	@NotifyChange("qtyOnDeck")
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+			"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+			"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
 	public void addOne()
 	{
 		if(selectedCard != null)
@@ -87,6 +117,7 @@ public class MyViewModel {
 			{
 				deckList.add(selectedCard);
 				this.qtyOnDeck = ++count;
+				calcStats();
 			}
 			else 
 				System.out.println("Apenas 4 cartas");
@@ -94,7 +125,9 @@ public class MyViewModel {
 	}
 	
 	@Command
-	@NotifyChange("qtyOnDeck")
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
 	public void addFour()
 	{
 		if(selectedCard != null)
@@ -108,22 +141,28 @@ public class MyViewModel {
 				deckList.add(selectedCard);	
 			}
 			this.qtyOnDeck+= count;
+			calcStats();
 		}
 	}
 	
 	@Command
-	@NotifyChange("qtyOnDeck")
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
 	public void removeOne()
 	{
 		if(selectedCard != null && deckList.contains(selectedCard))
 		{
 			deckList.remove(selectedCard);
 			this.qtyOnDeck--;
+			calcStats();
 		}
 	}
 	
 	@Command
-	@NotifyChange("qtyOnDeck")
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
 	public void removeAll()
 	{
 		if(selectedCard != null)
@@ -131,9 +170,144 @@ public class MyViewModel {
 			while(deckList.contains(selectedCard))
 				deckList.remove(selectedCard);
 			this.qtyOnDeck = 0;
+			calcStats();
 		}
 	}
 
+	@Command
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
+	public void addOneS()
+	{
+		if(selectedDeck != null)
+		{
+			int count = (int)deckList.stream().filter(x -> x.equals(selectedDeck)).count();
+			if(count < 4)
+			{
+				deckList.add(selectedDeck);
+				this.qtyOnDeckS = ++count;
+				calcStats();
+			}
+			else 
+				System.out.println("Apenas 4 cartas");
+		}
+	}
+	
+	@Command
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
+	public void addFourS()
+	{
+		if(selectedDeck != null)
+		{
+			int count = (int)deckList.stream().filter(x -> x.equals(selectedDeck)).count();
+			count = 4 - count;
+			if(count == 0)
+				System.out.println("Apenas 4 Cartas");
+			for(int i = 0; i < count; i++) 
+			{
+				deckList.add(selectedDeck);	
+			}
+			this.qtyOnDeckS+= count;
+			calcStats();
+		}
+	}
+	
+	@Command
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
+	public void removeOneS()
+	{
+		if(selectedDeck != null && deckList.contains(selectedDeck))
+		{
+			deckList.remove(selectedDeck);
+			this.qtyOnDeckS--;
+			calcStats();
+		}
+	}
+	
+	@Command
+	@NotifyChange({ "qtyOnDeck", "deckList", "qtyMana0", "qtyMana1", "qtyMana2", "qtyMana3", "qtyMana4", "qtyMana5",
+		"qtyMana6", "qtyMana7", "qtyMana8", "pRed", "pWhite", "pBlue", "pGreen", "pIncolor", "pBlack", "qtdA",
+		"qtdC", "qtdE", "qtdT", "qtdF", "qtdM", "qtdP" })
+	public void removeAllS()
+	{
+		if(selectedDeck != null)
+		{			
+			while(deckList.contains(selectedDeck))
+				deckList.remove(selectedDeck);
+			this.qtyOnDeckS = 0;
+			calcStats();
+		}
+	}
+	
+	private void calcStats() {
+		int qty0 = (int)deckList.stream().filter(x -> x.getCmc() == 0).count();
+		int qty1 = (int)deckList.stream().filter(x -> x.getCmc() == 1).count();
+		int qty2 = (int)deckList.stream().filter(x -> x.getCmc() == 2).count();
+		int qty3 = (int)deckList.stream().filter(x -> x.getCmc() == 3).count();
+		int qty4 = (int)deckList.stream().filter(x -> x.getCmc() == 4).count();
+		int qty5 = (int)deckList.stream().filter(x -> x.getCmc() == 5).count();
+		int qty6 = (int)deckList.stream().filter(x -> x.getCmc() == 6).count();
+		int qty7 = (int)deckList.stream().filter(x -> x.getCmc() == 7).count();
+		int qty8 = (int)deckList.stream().filter(x -> x.getCmc() > 7).count();
+		
+		setQtyMana0(qty0);
+		setQtyMana1(qty1);
+		setQtyMana2(qty2);
+		setQtyMana3(qty3);
+		setQtyMana4(qty4);
+		setQtyMana5(qty5);
+		setQtyMana6(qty6);
+		setQtyMana7(qty7);
+		setQtyMana8(qty8);
+		
+		int pR = (int)deckList.stream().filter(x -> x.getColorIdentity().contains("R")).count();
+		int pW = (int)deckList.stream().filter(x -> x.getColorIdentity().contains("W")).count();
+		int pB = (int)deckList.stream().filter(x -> x.getColorIdentity().contains("B")).count();
+		int pU = (int)deckList.stream().filter(x -> x.getColorIdentity().contains("U")).count();
+		int pG = (int)deckList.stream().filter(x -> x.getColorIdentity().contains("G")).count();
+		int pC = (int)deckList.stream().filter(x -> x.getColorIdentity().contains("C")).count();
+		
+		int count = deckList.size();
+		if(count > 0)
+		{
+			BigDecimal hundred = new BigDecimal(100);
+			BigDecimal r = new BigDecimal(pR).divide(new BigDecimal(count), 2, RoundingMode.HALF_UP).multiply(hundred);
+			BigDecimal w = new BigDecimal(pW).divide(new BigDecimal(count), 2, RoundingMode.HALF_UP).multiply(hundred);
+			BigDecimal b = new BigDecimal(pB).divide(new BigDecimal(count), 2, RoundingMode.HALF_UP).multiply(hundred);
+			BigDecimal u = new BigDecimal(pU).divide(new BigDecimal(count), 2, RoundingMode.HALF_UP).multiply(hundred);
+			BigDecimal g = new BigDecimal(pG).divide(new BigDecimal(count), 2, RoundingMode.HALF_UP).multiply(hundred);
+			BigDecimal c = new BigDecimal(pC).divide(new BigDecimal(count), 2, RoundingMode.HALF_UP).multiply(hundred);
+		
+			setpBlack(b);
+			setpBlue(u);
+			setpGreen(g);
+			setpIncolor(c);
+			setpRed(r);
+			setpWhite(w);
+		}
+		
+		int qT = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Land")).count();
+		int qE = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Enchantment")).count();
+		int qC = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Creature")).count();
+		int qP = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Planeswalker")).count();
+		int qI = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Instant")).count();
+		int qM = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Sorcery")).count();
+		int qA = (int)deckList.stream().filter(x -> x.getTypeLine().contains("Artifact")).count();
+		
+		setQtdA(qA);
+		setQtdE(qE);
+		setQtdC(qC);
+		setQtdP(qP);
+		setQtdF(qM);
+		setQtdM(qI);
+		setQtdT(qT);
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -419,4 +593,214 @@ public class MyViewModel {
 		this.qtyOnDeck = (int)deckList.stream().filter(x -> x.equals(selectedCard)).count();
 	}
 
+	public Datum getSelectedDeck() {
+		return selectedDeck;
+	}
+
+	@NotifyChange({"selectedDeck", "isButtonsDeck", "qtyOnDeckS"})
+	public void setSelectedDeck(Datum selectedDeck) {
+		this.selectedDeck = selectedDeck;
+		this.qtyOnDeckS = (int)deckList.stream().filter(x -> x.equals(selectedDeck)).count();
+		this.isButtonsDeck = true;
+	}
+
+	public List<Datum> getDeckList() {
+		return deckList;
+	}
+
+	public void setDeckList(List<Datum> deckList) {
+		this.deckList = deckList;
+	}
+
+	public Integer getQtyMana1() {
+		return qtyMana1;
+	}
+
+	public void setQtyMana1(Integer qtyMana1) {
+		this.qtyMana1 = qtyMana1;
+	}
+
+	public Integer getQtyMana2() {
+		return qtyMana2;
+	}
+
+	public void setQtyMana2(Integer qtyMana2) {
+		this.qtyMana2 = qtyMana2;
+	}
+
+	public Integer getQtyMana3() {
+		return qtyMana3;
+	}
+
+	public void setQtyMana3(Integer qtyMana3) {
+		this.qtyMana3 = qtyMana3;
+	}
+
+	public Integer getQtyMana4() {
+		return qtyMana4;
+	}
+
+	public void setQtyMana4(Integer qtyMana4) {
+		this.qtyMana4 = qtyMana4;
+	}
+
+	public Integer getQtyMana5() {
+		return qtyMana5;
+	}
+
+	public void setQtyMana5(Integer qtyMana5) {
+		this.qtyMana5 = qtyMana5;
+	}
+
+	public Integer getQtyMana6() {
+		return qtyMana6;
+	}
+
+	public void setQtyMana6(Integer qtyMana6) {
+		this.qtyMana6 = qtyMana6;
+	}
+
+	public Integer getQtyMana7() {
+		return qtyMana7;
+	}
+
+	public void setQtyMana7(Integer qtyMana7) {
+		this.qtyMana7 = qtyMana7;
+	}
+
+	public Integer getQtyMana8() {
+		return qtyMana8;
+	}
+
+	public void setQtyMana8(Integer qtyMana8) {
+		this.qtyMana8 = qtyMana8;
+	}
+
+	public Integer getQtyMana0() {
+		return qtyMana0;
+	}
+
+	public void setQtyMana0(Integer qtyMana0) {
+		this.qtyMana0 = qtyMana0;
+	}
+
+	public BigDecimal getpRed() {
+		return pRed;
+	}
+
+	public void setpRed(BigDecimal pRed) {
+		this.pRed = pRed;
+	}
+
+	public BigDecimal getpWhite() {
+		return pWhite;
+	}
+
+	public void setpWhite(BigDecimal pWhite) {
+		this.pWhite = pWhite;
+	}
+
+	public BigDecimal getpBlue() {
+		return pBlue;
+	}
+
+	public void setpBlue(BigDecimal pBlue) {
+		this.pBlue = pBlue;
+	}
+
+	public BigDecimal getpGreen() {
+		return pGreen;
+	}
+
+	public void setpGreen(BigDecimal pGreen) {
+		this.pGreen = pGreen;
+	}
+
+	public BigDecimal getpBlack() {
+		return pBlack;
+	}
+
+	public void setpBlack(BigDecimal pBlack) {
+		this.pBlack = pBlack;
+	}
+
+	public BigDecimal getpIncolor() {
+		return pIncolor;
+	}
+
+	public void setpIncolor(BigDecimal pIncolor) {
+		this.pIncolor = pIncolor;
+	}
+
+	public boolean getisButtonsDeck() {
+		return isButtonsDeck;
+	}
+
+	public void setButtonsDeck(boolean isButtonsDeck) {
+		this.isButtonsDeck = isButtonsDeck;
+	}
+
+	public Integer getQtyOnDeckS() {
+		return qtyOnDeckS;
+	}
+
+	public void setQtyOnDeckS(Integer qtyOnDeckS) {
+		this.qtyOnDeckS = qtyOnDeckS;
+	}
+
+	public Integer getQtdA() {
+		return qtdA;
+	}
+
+	public void setQtdA(Integer qtdA) {
+		this.qtdA = qtdA;
+	}
+
+	public Integer getQtdC() {
+		return qtdC;
+	}
+
+	public void setQtdC(Integer qtdC) {
+		this.qtdC = qtdC;
+	}
+
+	public Integer getQtdE() {
+		return qtdE;
+	}
+
+	public void setQtdE(Integer qtdE) {
+		this.qtdE = qtdE;
+	}
+
+	public Integer getQtdT() {
+		return qtdT;
+	}
+
+	public void setQtdT(Integer qtdT) {
+		this.qtdT = qtdT;
+	}
+
+	public Integer getQtdF() {
+		return qtdF;
+	}
+
+	public void setQtdF(Integer qtdF) {
+		this.qtdF = qtdF;
+	}
+
+	public Integer getQtdM() {
+		return qtdM;
+	}
+
+	public void setQtdM(Integer qtdM) {
+		this.qtdM = qtdM;
+	}
+
+	public Integer getQtdP() {
+		return qtdP;
+	}
+
+	public void setQtdP(Integer qtdP) {
+		this.qtdP = qtdP;
+	}
 }
