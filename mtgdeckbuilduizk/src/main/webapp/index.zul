@@ -124,7 +124,7 @@
 						        </template>
 						   	 </listbox>                            
                             </center>
-                            <east size="10%" autoscroll="true">
+                            <east size="40%" autoscroll="true">
                                 <vbox pack="center" align="center">
                                     <image id="image" src="@load(vm.selectedCard.imageUris.normal)" width="70%" />
                                     <hlayout>
